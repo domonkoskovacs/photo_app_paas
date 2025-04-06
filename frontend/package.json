@@ -28,6 +28,7 @@
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.53.0",
     "react-scripts": "5.0.1",
+    "serve": "^14.2.4",
     "sonner": "^2.0.3",
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7",
@@ -40,6 +41,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "serve": "serve -s build -l 8080",
     "generate-api": "openapi-generator-cli generate"
   },
   "eslintConfig": {
