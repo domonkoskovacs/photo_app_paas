@@ -17,7 +17,8 @@ const uploadPhotoSchema = z.object({
         .max(40, "Photo name must be at most 40 characters"),
     image: z
         .instanceof(File)
-        .refine((file) => file.size > 0, "Image is required"),
+        .refine((file) => file.size > 0, "Image is required")
+        .refine((file) => file.size <= 2 * 1024 * 1024, "File must be 2MB or smaller"),
 });
 
 type UploadFormProps = {
