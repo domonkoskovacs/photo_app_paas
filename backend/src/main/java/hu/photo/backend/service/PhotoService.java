@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import hu.photo.backend.entity.Photo;
+import hu.photo.backend.model.request.SortType;
 import hu.photo.backend.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +55,7 @@ public class PhotoService {
     }
 
     @Transactional(readOnly = true)
-    public List<Photo> getPhotoMetadata(String sortBy) {
+    public List<Photo> getPhotoMetadata(SortType sortBy) {
         log.info("getPhotoMetadata > sortBy: [{}]", sortBy);
         List<Photo> photos = photoRepository.findAll();
 
@@ -63,9 +64,10 @@ public class PhotoService {
         }
 
         Comparator<Photo> comparator = switch (sortBy) {
-            case "name" -> Comparator.comparing(Photo::getName);
-            case "date" -> Comparator.comparing(Photo::getUploadDate);
-            default -> throw new IllegalArgumentException("Invalid sort key: " + sortBy);
+            case NAME_ASC -> Comparator.comparing(Photo::getName);
+            case NAME_DESC -> Comparator.comparing(Photo::getName).reversed();
+            case DATE_ASC -> Comparator.comparing(Photo::getUploadDate);
+            case DATE_DESC -> Comparator.comparing(Photo::getUploadDate).reversed();
         };
 
         return photos.stream()

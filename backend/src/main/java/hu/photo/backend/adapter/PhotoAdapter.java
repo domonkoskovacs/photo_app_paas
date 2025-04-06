@@ -10,6 +10,7 @@ import hu.photo.backend.entity.Photo;
 import hu.photo.backend.exception.PhotoException;
 import hu.photo.backend.mapper.PhotoMapper;
 import hu.photo.backend.model.request.PhotoRequest;
+import hu.photo.backend.model.request.SortType;
 import hu.photo.backend.model.response.PhotoMetadataResponse;
 import hu.photo.backend.service.PhotoService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class PhotoAdapter {
         return new ByteArrayResource(photo.getImage());
     }
 
-    public List<PhotoMetadataResponse> getAllMetadata(String sortBy) {
+    public List<PhotoMetadataResponse> getAllMetadata(SortType sortBy) {
         return photoService.getPhotoMetadata(sortBy).stream()
                 .map(photoMapper::toMetadata)
                 .toList();
