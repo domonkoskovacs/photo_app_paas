@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import hu.photo.backend.entity.Photo;
 import hu.photo.backend.repository.PhotoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class PhotoService {
     private final PhotoRepository photoRepository;
 
     public void save(String name, byte[] image) {
+        log.info("save > name: [{}]", name);
         if (name.length() > 40) {
             throw new IllegalArgumentException("Photo name must be at most 40 characters.");
         }
@@ -43,6 +46,7 @@ public class PhotoService {
     }
 
     public void deletePhoto(Long id) {
+        log.info("deletePhoto > id: [{}]", id);
         if (!photoRepository.existsById(id)) {
             throw new NoSuchElementException("Photo to delete not found with ID: " + id);
         }
@@ -51,6 +55,7 @@ public class PhotoService {
 
     @Transactional(readOnly = true)
     public List<Photo> getPhotoMetadata(String sortBy) {
+        log.info("getPhotoMetadata > sortBy: [{}]", sortBy);
         List<Photo> photos = photoRepository.findAll();
 
         if (sortBy == null) {
