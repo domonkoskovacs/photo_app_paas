@@ -26,6 +26,38 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerM
 /**
  * 
  * @export
+ * @interface AuthRequest
+ */
+export interface AuthRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthRequest
+     */
+    'email'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthRequest
+     */
+    'password'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface AuthResponse
+ */
+export interface AuthResponse {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthResponse
+     */
+    'token'?: string;
+}
+/**
+ * 
+ * @export
  * @interface PhotoMetadataResponse
  */
 export interface PhotoMetadataResponse {
@@ -48,6 +80,215 @@ export interface PhotoMetadataResponse {
      */
     'uploadDate': string;
 }
+
+/**
+ * AuthControllerApi - axios parameter creator
+ * @export
+ */
+export const AuthControllerApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {AuthRequest} authRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        login: async (authRequest: AuthRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authRequest' is not null or undefined
+            assertParamExists('login', 'authRequest', authRequest)
+            const localVarPath = `/api/auth/login`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuthentication required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(authRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {AuthRequest} authRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        register: async (authRequest: AuthRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'authRequest' is not null or undefined
+            assertParamExists('register', 'authRequest', authRequest)
+            const localVarPath = `/api/auth/register`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuthentication required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(authRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * AuthControllerApi - functional programming interface
+ * @export
+ */
+export const AuthControllerApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = AuthControllerApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {AuthRequest} authRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async login(authRequest: AuthRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.login(authRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthControllerApi.login']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {AuthRequest} authRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async register(authRequest: AuthRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.register(authRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthControllerApi.register']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * AuthControllerApi - factory interface
+ * @export
+ */
+export const AuthControllerApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = AuthControllerApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {AuthControllerApiLoginRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        login(requestParameters: AuthControllerApiLoginRequest, options?: RawAxiosRequestConfig): AxiosPromise<AuthResponse> {
+            return localVarFp.login(requestParameters.authRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {AuthControllerApiRegisterRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        register(requestParameters: AuthControllerApiRegisterRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.register(requestParameters.authRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for login operation in AuthControllerApi.
+ * @export
+ * @interface AuthControllerApiLoginRequest
+ */
+export interface AuthControllerApiLoginRequest {
+    /**
+     * 
+     * @type {AuthRequest}
+     * @memberof AuthControllerApiLogin
+     */
+    readonly authRequest: AuthRequest
+}
+
+/**
+ * Request parameters for register operation in AuthControllerApi.
+ * @export
+ * @interface AuthControllerApiRegisterRequest
+ */
+export interface AuthControllerApiRegisterRequest {
+    /**
+     * 
+     * @type {AuthRequest}
+     * @memberof AuthControllerApiRegister
+     */
+    readonly authRequest: AuthRequest
+}
+
+/**
+ * AuthControllerApi - object-oriented interface
+ * @export
+ * @class AuthControllerApi
+ * @extends {BaseAPI}
+ */
+export class AuthControllerApi extends BaseAPI {
+    /**
+     * 
+     * @param {AuthControllerApiLoginRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthControllerApi
+     */
+    public login(requestParameters: AuthControllerApiLoginRequest, options?: RawAxiosRequestConfig) {
+        return AuthControllerApiFp(this.configuration).login(requestParameters.authRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {AuthControllerApiRegisterRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AuthControllerApi
+     */
+    public register(requestParameters: AuthControllerApiRegisterRequest, options?: RawAxiosRequestConfig) {
+        return AuthControllerApiFp(this.configuration).register(requestParameters.authRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
 
 /**
  * PhotoControllerApi - axios parameter creator
@@ -76,6 +317,10 @@ export const PhotoControllerApiAxiosParamCreator = function (configuration?: Con
             const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuthentication required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
     
@@ -106,6 +351,10 @@ export const PhotoControllerApiAxiosParamCreator = function (configuration?: Con
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuthentication required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             if (sortBy !== undefined) {
                 localVarQueryParameter['sortBy'] = sortBy;
@@ -144,6 +393,10 @@ export const PhotoControllerApiAxiosParamCreator = function (configuration?: Con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication BearerAuthentication required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
     
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -177,6 +430,10 @@ export const PhotoControllerApiAxiosParamCreator = function (configuration?: Con
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
             const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            // authentication BearerAuthentication required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
 
             if (name !== undefined) { 

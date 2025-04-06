@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.photo.backend.adapter.PhotoAdapter;
+import hu.photo.backend.config.IsUser;
 import hu.photo.backend.model.request.PhotoRequest;
 import hu.photo.backend.model.request.SortType;
 import hu.photo.backend.model.response.PhotoMetadataResponse;
@@ -39,12 +40,14 @@ public class PhotoController {
         return ResponseEntity.ok(photoAdapter.getAllMetadata(sortBy));
     }
 
+    @IsUser
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> upload(@Valid @ModelAttribute PhotoRequest request) {
         photoAdapter.save(request);
         return ResponseEntity.ok().build();
     }
 
+    @IsUser
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         photoAdapter.delete(id);
