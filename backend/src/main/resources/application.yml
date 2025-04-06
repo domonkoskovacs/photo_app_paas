@@ -1,6 +1,9 @@
 server:
   port: 8080
 spring:
+  security:
+    cors:
+      enabled: ${SPRING_SECURITY_CORS_ENABLED}
   liquibase:
     enabled: true
     change-log: classpath:db/changelog-app.xml
