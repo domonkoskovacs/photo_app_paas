@@ -8,25 +8,19 @@
 
     <changeSet id="1-create-photo-table" author="domonkos.kovacs">
         <createTable tableName="photo">
-            <column name="id" type="BIGINT">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-
-            <column name="name" type="VARCHAR(40)">
+            <column name="name" type="varchar(40)">
                 <constraints nullable="false"/>
             </column>
-
-            <column name="upload_date" type="TIMESTAMP">
+            <column name="upload_date" type="timestamp">
                 <constraints nullable="false"/>
             </column>
-
-            <column name="image" type="BLOB"/>
+            <column name="image" type="bytea">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
-        <addAutoIncrement
-                columnName="id"
-                tableName="photo"
-                columnDataType="BIGINT"
-                incrementBy="1"
-                startWith="1"/>
     </changeSet>
+
 </databaseChangeLog>
